@@ -11,9 +11,9 @@ class LoggerNoSQL(LoggerNoSQLTest):
         """
         Class that write and read logging on any kind info or error of the application
         """
-        connection_string = "mongodb+srv://{}:{}@cluster0-9hvcq.gcp.mongodb.net/test?retryWrites=true&w=majority"
+        connection_string = "mongodb+srv://{}:{}@{}/test?retryWrites=true&w=majority"
         self.client = MongoClient(connection_string.format(
-            'lucasbiason', 'mongo2525'
+            'lucasbiason', 'mongo2525', 'cluster0-9hvcq.gcp.mongodb.net'
         ))
         self.ids_inserted = []
 

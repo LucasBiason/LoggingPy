@@ -25,13 +25,13 @@ class TaskLogger(Resource):
     def put(self):
         rec = request.get_json(force=True)
 
-        idUser = rec['idUser']
+        id_user = rec['id_user']
         message = rec['message']
         kind = rec['kind']
         trace = rec['trace']
 
         log = LoggerNoSQL()
-        result = log.test_add_log(message, kind, trace, idUser)
+        result = log.test_add_log(message, kind, trace, id_user)
         del log
 
         return result
