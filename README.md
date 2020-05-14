@@ -19,3 +19,24 @@ ou de ferramentas terceiras como por exemplo o software de requisições HTTP po
 
 Serviço de User: Possui as mesmas características do serviço de logging 
 e ainda pode fazer requisições para outros micro-serviços
+**-- Versão inicial apenas simula a busca e adição para fins de teste da logging. Terei outro serviço para usuários**.  
+
+
+**Instalação:**
+
+
+mkvirtaulenv logging_service
+pip install -r requirements.txt
+
+
+**Para Executar:**
+
+python user_service/main_user.py
+python audit_service/main_logger.py
+
+
+**Utilização:**
+
+
+Importe o arquivo LoggingPy.postman_collection.json no Postman e execute os endpoints que preferir.
+
