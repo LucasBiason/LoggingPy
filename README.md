@@ -1,21 +1,62 @@
 # Microservice for logging information
 
+Logging Service: You can receive requests from another micro-service
+or third-party tools such as HTTP postman request software.
 
-**Teremos 2 APIs:** 1 serviço para LOGGING e outro para manuseio de dados de usuário.
+The purpose is to store data on transactions carried out in applications
+
+**Requirements:**
+* MongoDB installed. I recommend: https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04-pt
+
+**Install service:**
+```
+mkvirtualenv loggingpy
+workon loggingpy
+pip install -r requirements.txt
+```
+
+**Run service:**
+```
+cd audit_service
+./startup.sh
+```
+Note: you can config host and port at main_logger.py
 
 
-O objetivo é fazer com que cada API seja um micro-serviço. 
+**Implements on your project:**
+```python
 
-Cada micro-serviço será executado de forma independente pode receber requisições entre os mesmos 
-ou requisições de terceiros.
+    def create_log(self, message, kind, trace, id_user):
+        try: 
+            URL = 'http://0.0.0.0:5005/api/v1.0/taskLogger'
+            PARAMS = { 
+                "message": message, 
+                "kind": kind, 
+                "trace": trace, 
+                "id_user": id_user 
+            }
+            result = requests.put(
+                url=URL, json=PARAMS
+            )
+            self.assertEqual(result.status_code, 200)
+        except AssertionError:
+            logging.warning("Logging service down")
 
+```
+ And use, for example:
 
-**Definição de recursos:**
+ ```python
 
+    self.create_log(
+        f'User data successfuly saved. {id_user}, {user_name}, {email}', 
+        'INFO', '', self._id_user
+    )
 
-Serviço de Logging: Pode receber requisições de outro micro-serviço 
-ou de ferramentas terceiras como por exemplo o software de requisições HTTP postman.
+    # or ...
 
-
-Serviço de User: Possui as mesmas características do serviço de logging 
-e ainda pode fazer requisições para outros micro-serviços
+    self.create_log(
+        ex.args[0], 
+        'ERROR', traceback.format_exc(), 
+        self._id_user
+    )
+ ```
