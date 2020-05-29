@@ -11,14 +11,9 @@ class LoggerNoSQL(LoggerNoSQLTest):
         """
         Class that write and read logging on any kind info or error of the application
         """
-        connection_string = "mongodb+srv://{}:{}@{}/test?retryWrites=true&w=majority"
-        self.client = MongoClient(connection_string.format(
-            'lucasbiason', 'mongo2525', 'cluster0-9hvcq.gcp.mongodb.net'
-        ))
+        self.client = MongoClient('mongodb://127.0.0.1:27017')
         self.ids_inserted = []
-
         self._test_connection()
-
         self._list_of_logs = []
         
     def add_log(self, message, kind, trace, idUser):
@@ -54,4 +49,4 @@ class LoggerNoSQL(LoggerNoSQLTest):
                 item['MESSAGE'], 
                 item['TRACE'])
             )
-        return len(self._list_of_logs)
+        return self._list_of_logs

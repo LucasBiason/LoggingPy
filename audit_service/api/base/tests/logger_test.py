@@ -18,8 +18,7 @@ class LoggerNoSQLTest(unittest.TestCase):
             
     def check_server(self):
         """
-        Try to connect on MongoDB cloud instance and try to create collections
-        Return: True if the database is reachable and False on any problem encontered on that
+        Try to connect on MongoDB instance and try to create collections
         """
         try:
             self.client.server_info()
@@ -49,43 +48,3 @@ class LoggerNoSQLTest(unittest.TestCase):
             tbl.delete_one(first_rec)
             return True
         return False
-
-    def test_add_log(self, message, kind, trace, id_user):
-        """
-        Tests the addLog method
-        Return: returns number of inserted record(s). One record will inserted by default
-        """
-
-        try:
-            self.assertTrue(
-                self.add_log(message, kind, trace, id_user)
-            )
-            return { 
-                    "message": "Ok", 
-                    "result": "1 record of Logging was inserted on the database" 
-            }, 200
-        except AssertionError as ae:
-            return { 
-                    "message": "Error", 
-                    "result": ae.args[0] 
-            }, 500
-
-    def test_list_logs(self, data, start, limit):
-        """
-        Tests the list of logs
-        Return: returns the list_of_logs filled list 
-        """
-
-        try:
-            self.assertGreater(
-                self.list_logs(data, start, limit), 0
-            )
-            return {
-                 "message": "Ok", 
-                 "result": self._list_of_logs 
-                 }, 200
-        except AssertionError as ae:
-            return { 
-                "message": "Error", 
-                "result": ae.args[0] 
-            }, 500
